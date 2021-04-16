@@ -1,20 +1,40 @@
 package com.novakova.project.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
+import java.util.HashSet;
 import java.util.List;
 
+@Entity
 public class User {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "userId", nullable = false, updatable = false)
     private Long userId;
+
     private String username;
     private String password;
     private String firstName;
     private String lastName;
+
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
     private String phone;
     private boolean enabled = true;
 
+    @OneToOne
     private PrimaryAccount primaryAccount;
+
+    @OneToOne
     private SavingsAccount savingsAccount;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<Appointment> appointments;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Recipient> recipients;
 
     public Long getUserId() {

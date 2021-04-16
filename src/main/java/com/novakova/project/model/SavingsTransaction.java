@@ -1,9 +1,14 @@
 package com.novakova.project.model;
 
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
 
+@Entity
 public class SavingsTransaction {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private Date date;
     private String description;
@@ -11,7 +16,10 @@ public class SavingsTransaction {
     private String status;
     private double amount;
     private BigDecimal availableBalance;
-    SavingsAccount savingsAccount;
+
+    @ManyToOne
+    @JoinColumn(name = "savings_account_id")
+    private SavingsAccount savingsAccount;
 
     public SavingsTransaction() {
     }
