@@ -35,12 +35,13 @@ public class HomeController {
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
     public String signupPost(@ModelAttribute("user") User user,  Model model){
         if(userService.checkUserExists(user.getUsername(), user.getEmail())){
-            if(userService.checkUsernameExists(user.getUsername())){
-                model.addAttribute("usernameExists", true);
-            }
 
             if(userService.checkEmailExists(user.getEmail())){
                 model.addAttribute("emailExists", true);
+            }
+
+            if(userService.checkUsernameExists(user.getUsername())){
+                model.addAttribute("usernameExists", true);
             }
 
             return "signup";
