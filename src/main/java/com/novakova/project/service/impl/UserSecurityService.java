@@ -24,6 +24,7 @@ public class UserSecurityService implements UserDetailsService {
         User user = userRepository.findByUsername(username);
         if(user == null){
             LOG.warning(String.format("Username {} not found", username));
+            throw new UsernameNotFoundException("Username " + username + " not found.");
         }
         return user;
     }

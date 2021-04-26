@@ -1,6 +1,9 @@
 package com.novakova.project.service;
 
 import com.novakova.project.model.User;
+import com.novakova.project.model.security.UserRole;
+
+import java.util.Set;
 
 public interface UserService {
     User findByUsername(String username);
@@ -9,4 +12,5 @@ public interface UserService {
     boolean checkUsernameExists(String username);
     boolean checkEmailExists(String email);
     void save(User user);
+    User createUser(User user, Set<UserRole> userRoles);
 }
