@@ -4,6 +4,7 @@ import com.novakova.project.model.User;
 import com.novakova.project.model.security.UserRole;
 import com.novakova.project.repository.RoleRepository;
 import com.novakova.project.repository.UserRepository;
+import com.novakova.project.service.AccountService;
 import com.novakova.project.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -26,6 +27,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
+
+    @Autowired
+    private AccountService accountService;
 
     @Override
     public User findByUsername(String username) {
@@ -57,6 +61,7 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
     }
 
+    @Override
     public User createUser(User user, Set<UserRole> userRoles){
         User localUser = userRepository.findByUsername(user.getUsername());
         if(localUser != null){
@@ -70,7 +75,8 @@ public class UserServiceImpl implements UserService {
             }
 
             user.getUserRoles().addAll(userRoles);
-            //TODO add savings and primary account
+            user.setPrimaryAccount(accountService.createPrimaryAccount());
+            user.setSavingsAccount(accountService.createSavingsAccount());
             localUser = userRepository.save(user);
         }
         return localUser;

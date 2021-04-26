@@ -12,7 +12,7 @@ public class PrimaryAccount {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private int countNumber;
+    private int accountNumber;
     private BigDecimal accountBalance;
 
     @OneToMany(mappedBy = "primaryAccount", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -27,12 +27,12 @@ public class PrimaryAccount {
         this.id = id;
     }
 
-    public int getCountNumber() {
-        return countNumber;
+    public int getAccountNumber() {
+        return accountNumber;
     }
 
-    public void setCountNumber(int countNumber) {
-        this.countNumber = countNumber;
+    public void setAccountNumber(int countNumber) {
+        this.accountNumber = countNumber;
     }
 
     public BigDecimal getAccountBalance() {
