@@ -1,5 +1,7 @@
 package com.novakova.project.controller;
 
+import com.novakova.project.model.PrimaryAccount;
+import com.novakova.project.model.SavingsAccount;
 import com.novakova.project.model.User;
 import com.novakova.project.model.security.UserRole;
 import com.novakova.project.repository.RoleRepository;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.security.Principal;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -59,5 +62,16 @@ public class HomeController {
             userService.createUser(user, userRoles);
             return "redirect:/";
         }
+    }
+
+    @RequestMapping("/userFront")
+    public String userAccount(Principal principal, Model model){
+        User user = userService.findByUsername(principal.getName());
+        PrimaryAccount primaryAccount = user.getPrimaryAccount();
+        SavingsAccount savingsAccount = user.getSavingsAccount();
+
+        model.addAttribute("primaryAccount", primaryAccount);
+        model.addAttribute("savingsAccount", savingsAccount);
+        return "userFront";
     }
 }

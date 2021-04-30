@@ -15,7 +15,7 @@ import java.security.Principal;
 @Service
 public class AccountServiceImpl implements AccountService {
 
-    private static int nextAccountNumber = 11223145;
+    private static int nextAccountNumber = 11223150;
 
     @Autowired
     private UserService userService;
