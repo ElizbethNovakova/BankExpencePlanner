@@ -43,7 +43,7 @@ public class SavingsAccount {
         this.accountBalance = accountBalance;
     }
 
-    public List<SavingsTransaction> getSavingsTransactions() {
+    public List<SavingsTransaction> getSavingsTransactionsList() {
         return savingsTransactions;
     }
 
