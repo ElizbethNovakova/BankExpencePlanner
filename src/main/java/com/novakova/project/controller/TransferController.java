@@ -1,6 +1,7 @@
 package com.novakova.project.controller;
 
 import com.novakova.project.model.PrimaryAccount;
+import com.novakova.project.model.Recipient;
 import com.novakova.project.model.SavingsAccount;
 import com.novakova.project.model.User;
 import com.novakova.project.service.TransactionService;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.security.Principal;
+import java.util.List;
 
 @Controller
 @RequestMapping("/transfer")
@@ -44,5 +46,21 @@ public class TransferController {
 
 
         return "redirect:/userFront";
+    }
+
+    @RequestMapping(value = "/recipient", method = RequestMethod.GET)
+    public String recipient(Model model, Principal principal){
+        List<Recipient> recipientList = transactionService.findRecipientList(principal);
+        Recipient recipient = new Recipient();
+
+        model.addAttribute("recipientList", recipientList);
+        model.addAttribute("recipient", recipient);
+
+        return "recipient";
+    }
+
+    @RequestMapping(value = "/recipient/save", method = RequestMethod.POST)
+    public String recipient(){
+        return "";
     }
 }

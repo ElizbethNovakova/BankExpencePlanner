@@ -1,10 +1,8 @@
 package com.novakova.project.service;
 
-import com.novakova.project.model.PrimaryAccount;
-import com.novakova.project.model.PrimaryTransaction;
-import com.novakova.project.model.SavingsAccount;
-import com.novakova.project.model.SavingsTransaction;
+import com.novakova.project.model.*;
 
+import java.security.Principal;
 import java.util.List;
 
 public interface TransactionService {
@@ -15,4 +13,8 @@ public interface TransactionService {
     void savePrimaryWithdrawTransaction(PrimaryTransaction primaryTransaction);
     void saveSavingsWithdrawTransaction(SavingsTransaction savingsTransaction);
     void betweenAccountsTransfer(String transferFrom, String transferTo, String amount, PrimaryAccount primaryAccount, SavingsAccount savingsAccount) throws Exception;
+    List<Recipient> findRecipientList(Principal principal);
+    Recipient saveRecipient(Recipient recipient);
+    Recipient findRecipientByName(String recipientName);
+    public void deleteRecipientByName(String recipientName);
 }

@@ -1,18 +1,17 @@
 package com.novakova.project.service.impl;
 
 import com.novakova.project.model.*;
-import com.novakova.project.repository.PrimaryAccountRepository;
-import com.novakova.project.repository.PrimaryTransactionRepository;
-import com.novakova.project.repository.SavingsAccountRepository;
-import com.novakova.project.repository.SavingsTransactionRepository;
+import com.novakova.project.repository.*;
 import com.novakova.project.service.TransactionService;
 import com.novakova.project.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.security.Principal;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TransactionServiceImpl implements TransactionService {
@@ -31,6 +30,9 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Autowired
     private SavingsAccountRepository savingsAccountRepository;
+
+    @Autowired
+    private RecipientRepository recipientRepository;
 
     @Override
     public List<PrimaryTransaction> findPrimaryTransactionList(String username) {
@@ -100,5 +102,30 @@ public class TransactionServiceImpl implements TransactionService {
         } else {
             throw new Exception("Invalid transfer");
         }
+    }
+
+    @Override
+    public List<Recipient> findRecipientList(Principal principal) {
+        String username = principal.getName();
+        List<Recipient> recipientList = recipientRepository.findAll().stream()
+                .filter(recipient -> username.equals(recipient.getUser().getUsername()))
+                .collect(Collectors.toList());
+
+        return recipientList;
+    }
+
+    @Override
+    public Recipient saveRecipient(Recipient recipient) {
+        return recipientRepository.save(recipient);
+    }
+
+    @Override
+    public Recipient findRecipientByName(String recipientName) {
+        return recipientRepository.findByName(recipientName);
+    }
+
+    @Override
+    public void deleteRecipientByName(String recipientName) {
+        recipientRepository.deleteByName(recipientName);
     }
 }
